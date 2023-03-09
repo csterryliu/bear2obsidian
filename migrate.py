@@ -1,7 +1,11 @@
-import re, os, argparse, shutil
+import re
+import os
+import argparse
+import shutil
 
 RE_BEAR_IMAGE_UUID = \
     "[0-9A-Z]{8}\-[0-9A-Z]{4}\-[0-9A-Z]{4}\-[0-9A-Z]{4}\-[0-9A-Z]{12}\.[a-z]+"
+VERBOSE = False
 
 
 def process_args():
@@ -24,22 +28,26 @@ def parse_links_to_images(source_file, target_file):
                     dest.write(line.strip() + '\n')
 
 
+def log_verbose(log, is_verbose_on=VERBOSE):
+    if is_verbose_on:
+        print(log)
+
+
 def main():
     args = process_args()
     prefix = args.rootDir.rsplit('/', 1)[0]
-    print(prefix)
+    log_verbose(prefix)
     stack = []
 
     for currentFolder, subfolders, filenames in os.walk(args.rootDir):
         print('Current folder: ' + currentFolder)
-        print('Subfolders: ' + str(subfolders))
-        # print('files: ' + str(filenames))
+        log_verbose('Subfolders: ' + str(subfolders))
 
         stack.append(len(subfolders))
 
         depth = len(stack)
-        # print("depth: " + str(depth))
-        # print(stack)
+        log_verbose("depth: " + str(depth))
+        log_verbose(stack)
 
         mdList = [name
                   for name in filenames if name.endswith('.md')]
@@ -47,12 +55,12 @@ def main():
                    for name in filenames if name.endswith('.png')]
 
         target_folder = '/'.join(currentFolder.rsplit('/', depth)[-depth:])
-        # print(currentFolder.rsplit('/', depth))
+        log_verbose(currentFolder.rsplit('/', depth))
 
         if len(mdList) > 0:
             # create the target folder
             if not os.path.exists(target_folder):
-                print("create folder: ", target_folder)
+                log_verbose("create folder: " + target_folder)
                 os.mkdir(target_folder)
             # copy md files to the target folder
             for f in mdList:
@@ -61,22 +69,22 @@ def main():
                 print("src: ", src)
                 print("dest: ", dest)
                 if f.removesuffix('.md') in subfolders:
-                    print(src + ' has to be parsed!!')
+                    log_verbose(src + ' has to be parsed!!')
                     parse_links_to_images(src, dest)
                 else:
-                    print('copy ' + src + ' to ' + dest)
+                    log_verbose('copy ' + src + ' to ' + dest)
                     shutil.copyfile(src, dest)
 
         if len(pngList) > 0:
-            attachments = (target_folder.rsplit('/', 1)[0] + '/attachments')
+            attachments = target_folder.rsplit('/', 1)[0] + '/attachments'
             if not os.path.exists(attachments):
-                print('create attachments: ' + attachments)
+                log_verbose('create attachments: ' + attachments)
                 os.mkdir(attachments)
             # copy png files to attachments folder
             for f in pngList:
                 src = currentFolder + '/' + f
                 dest = attachments + '/' + f
-                print('copy ' + src + ' to ' + dest)
+                log_verbose('copy ' + src + ' to ' + dest)
                 shutil.copyfile(src, dest)
 
         while len(stack) > 1 and stack[-1] == 0:
