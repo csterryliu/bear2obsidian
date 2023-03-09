@@ -42,12 +42,16 @@ I didn't want to see broken images inside my notes so I started this tiny and ma
 ### Bear
 - Images referred by a Markdown file is put into the folder with an identical name in the same path.
 - Syntax
-`![](path_to_the_file/filename.extension)`
+```
+![](path_to_the_file/filename.extension)
+```
 
 ### Obsidian
 - Images reffered by Markdown files are put into the "attachments" folder in the same path.
 - Syntax
-`![[filename.extension]]`
+```
+![[filename.extension]]
+```
 
 ## Objectives
 - Change the folder structure.
