@@ -5,7 +5,7 @@ When migrating from a Markdown note-taking app to another one, the most frustrat
 
 I was a fanboy of Bear app. But this year I'd like to move my notes to Obsidian. Therefore, I faced the trouble mentioned above.
 
-I don't want to see broken images inside my notes so I started this tiny and maybe a little boring even useless project.
+I didn't want to see broken images inside my notes so I started this tiny and maybe a little boring even useless project.
 
 ---
 ## Folder Structure
