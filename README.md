@@ -59,5 +59,10 @@ I didn't want to see broken images inside my notes so I started this tiny and ma
 - Change the syntax to link to a image.
 
 ---
+## Usage
+```bash
+python3 migrate.py /the/parent/folder/path/to/your/bear/notes
+```
+---
 ## License
 MIT
