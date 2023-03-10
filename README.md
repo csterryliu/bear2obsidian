@@ -3,7 +3,7 @@
 ## Motivation
 When migrating from a Markdown note-taking app to another one, the most frustrating thing is the broken links to the attached images.
 
-I was a fanboy of Bear app. But this year I'd like to move my notes to Obsidian. Therefore, I faced the trouble mentioned above.
+I was a fanboy of [Bear](https://bear.app/) app. But this year I'd like to move my notes to [Obsidian](https://obsidian.md/). Therefore, I faced the trouble mentioned above.
 
 I didn't want to see broken images inside my notes so I started this tiny and maybe a little boring even useless project.
 
