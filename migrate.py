@@ -3,7 +3,9 @@ import os
 import argparse
 import shutil
 
-RE_IMAGE_FILENAME = "\/[\w\W]+\.[a-z]+"
+RE_IMAGE_FILENAME = "\!\[\]\([\w\W]+\/([\w\W]+)\)"
+SPACE = "%20"
+IMAGE_TUPLE = ("png", "jpg", "HEIC")
 VERBOSE = False
 
 
@@ -22,7 +24,8 @@ def parse_links_to_images(source_file, target_file):
             for line in src:
                 match = re.search(RE_IMAGE_FILENAME, line.strip())
                 if match:
-                    matched_str = (match.group()).removeprefix('/')
+                    matched_str = (match.group(1)).removeprefix('/')\
+                        .replace(SPACE, " ")
                     dest.write(f'![[{matched_str}]]\n')
                 else:
                     dest.write(line.strip() + '\n')
@@ -51,16 +54,14 @@ def main():
 
         mdList = [name
                   for name in filenames if name.endswith('.md')]
-        pngList = [name
-                   for name in filenames
-                   if name.endswith('.png') or name.endswith('.jpg')
-                   or name.endswith('.HEIC')]
+        imgList = [name
+                   for name in filenames if name.endswith(IMAGE_TUPLE)]
 
         target_folder = '/'.join(currentFolder.rsplit('/', depth)[-depth:])
         log_verbose(currentFolder.rsplit('/', depth))
 
         # create the target folder
-        if len(pngList) == 0 and not os.path.exists(target_folder):
+        if len(imgList) == 0 and not os.path.exists(target_folder):
             log_verbose("create folder: " + target_folder)
             os.mkdir(target_folder)
         # copy md files to the target folder
@@ -76,13 +77,13 @@ def main():
                 log_verbose('copy ' + src + ' to ' + dest)
                 shutil.copyfile(src, dest)
 
-        if len(pngList) > 0:
+        if len(imgList) > 0:
             attachments = target_folder.rsplit('/', 1)[0] + '/attachments'
             if not os.path.exists(attachments):
                 log_verbose('create attachments: ' + attachments)
                 os.mkdir(attachments)
             # copy png files to attachments folder
-            for f in pngList:
+            for f in imgList:
                 src = currentFolder + '/' + f
                 dest = attachments + '/' + f
                 log_verbose('copy ' + src + ' to ' + dest)
