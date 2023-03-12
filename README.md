@@ -58,6 +58,12 @@ I didn't want to see broken images inside my notes so I started this tiny and ma
 - Move images into "attachments" folder.
 - Change the syntax to link to a image.
 
+## To-Do
+1. Convert HEIC images to JPG. (Because Obsidian doesn't support HEIC.)
+2. Enhance logging machanisim.
+3. Enhance code: Including better syntaxes, coding styles, etc.
+4. Fix bugs if there's any.
+
 ---
 ## Usage
 ```bash
